@@ -3,13 +3,14 @@ import { StyleSheet, ScrollView, View, TextInput, Button } from "react-native";
 import { database } from "../src/dataBase/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 
 const CreateUser = () => {
     const navigation = useNavigation();
     const [state, setState] = useState({
         rut: "",
-        image: "",
+        userId: "",
+        imageFirebase: "",
         nombre: "",
         apellidoPaterno: "",
         apellidoMaterno: "",
@@ -31,50 +32,72 @@ const CreateUser = () => {
         navigation.goBack();
     };
 
-    const [image, setImage] = useState('');
+    uploadImage = (uri) => {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.onerror = reject;
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    resolve(xhr.response);
+                }
+            };
 
-    const selectImage = () => {
-        const options = {
-            title: 'Seleccionar Imagen',
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-        }
-        launchImageLibrary(options, response => {
-            if (response.errorCode) {
-                console.log('Image picker error: ', response.errorCode);
-            } else if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else {
-                const path = response.assets[0].uri;
-                setImage(path);
-            }
-        }) 
+            xhr.open("GET", uri);
+            xhr.responseType = "blob";
+            xhr.send();
+        })
     };
 
-    const takePicture = () => {
-        const options = {
-            title: 'Tomar una Imagen',
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-            includeBase64: true,
+    openGallery = async () => {
+        const resultPermission = await Permission.askAsync(Permission.CAMERA_ROLL);
+        const { userId } = this.state;
+        if (resultPermission) {
+            const resultImagePicker = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [4, 3]
+            });
         }
 
-        launchCamera(options, response => {
-            if (response.errorCode) {
-                console.log('Image picker error: ', response.errorCode);
-            } else if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else {
-                const uri = response.assets[0].uri;
-                setImage(uri);
-            }
+        if (resultImagePicker.cancelled == false) {
+            const imageUri = resultImagePicker.uri;
+
+            this.uploadImage(imageUri).then(resolve => {
+                let ref = 
+                firebase.storage().ref().child("images/" + userId + ".jpg");
+                ref.put(resolve).then(resolve => {
+                    //this.setState({ imageFirebase: imageUri });
+                    console.log("Imagen Cargada");           
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    };
+
+    checkImage = () => {
+        const { imageFirebase } = this.state;
+
+        if (imageFirebase) {
+            return (
+                <Image
+                    source={{ uri: imageFirebase }}
+                    style={{ width: 300, height: 300 }}
+                />
+            );
+        }
+        return null;
+    };
+
+    loadImage = async () => {
+        //const { userId } = this.state; lo llame de esa manera
+        //                               userID
+        firebase.storage().ref("images/${this.state.userId}").getDownloadURL().then(resolve => {
+            this.setState({ imageFirebase: resolve });
+        }).catch(error => {
+            console.log(error);
         });
     };
-
     return (
         <ScrollView style={styles.container}>
             <View style={styles.inputGroup}>
@@ -82,10 +105,19 @@ const CreateUser = () => {
                     placeholder="Rut"
                     onChangeText={(value) => handleChangeText("rut", value)}
                 />
-                {/* touchable opacity 
-                <Button title="Seleccionar Imagen" style={styles.Button} onPress={() => selectImage() } />
-                <Button title="Tomar Fotografia" style={styles.Button} onPress={() => takePicture() } />
-                */}
+    
+                <Button 
+                onPress={() => this.openGallery()} 
+                title="Seleccionar Imagen"
+                color="#841584"
+                />
+                
+                <Button 
+                onPress={() => this.loadImage()} 
+                title="Cargar Imagen"
+                color="#841584"
+                />
+
                 <TextInput
                     placeholder="Nombre"
                     onChangeText={(value) => handleChangeText("nombre", value)}

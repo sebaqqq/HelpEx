@@ -10,13 +10,12 @@ import {
 } from "firebase/firestore";
 import { ListItem } from "react-native-elements";
 
-export default function User({id, rut, image, nombre, apellidoPaterno, apellidoMaterno, direccion, diagnostico, nombreContactoEmergencia, apellidoContactoEmergencia, rutContactoEmergencia, telefonoContactoEmergencia, parentescoContactoEmergencia}) {
+export default function User({id, rut, nombre, apellidoPaterno, apellidoMaterno, direccion, diagnostico, nombreContactoEmergencia, apellidoContactoEmergencia, rutContactoEmergencia, telefonoContactoEmergencia, parentescoContactoEmergencia}) {
     return (
         <ListItem>
             <ListItem.Chevron />
             <ListItem.Content>
                 <ListItem.Title>Rut: {rut}</ListItem.Title>
-                <ListItem.Title>Imagen: {image}</ListItem.Title>
                 <ListItem.Title>Nombre: {nombre}</ListItem.Title>
                 <ListItem.Title>Apellido Paterno: {apellidoPaterno}</ListItem.Title>
                 <ListItem.Title>Apellido Materno: {apellidoMaterno}</ListItem.Title>
