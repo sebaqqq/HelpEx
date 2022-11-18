@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View, TextInput, Button } from "react-native";
 import { database } from "../src/dataBase/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const CreateUser = () => {
     const navigation = useNavigation();
@@ -22,12 +23,56 @@ const CreateUser = () => {
     });
 
     const handleChangeText = (name, value) => {
-        setState({...state, [name]: value});
+        setState({...state, [name]: value}); 
     };
 
     const createNewUser = () => {
         addDoc(collection(database, "user"), state)
         navigation.goBack();
+    };
+
+    const [image, setImage] = useState('');
+
+    const selectImage = () => {
+        const options = {
+            title: 'Seleccionar Imagen',
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        }
+        launchImageLibrary(options, response => {
+            if (response.errorCode) {
+                console.log('Image picker error: ', response.errorCode);
+            } else if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else {
+                const path = response.assets[0].uri;
+                setImage(path);
+            }
+        }) 
+    };
+
+    const takePicture = () => {
+        const options = {
+            title: 'Tomar una Imagen',
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+            includeBase64: true,
+        }
+
+        launchCamera(options, response => {
+            if (response.errorCode) {
+                console.log('Image picker error: ', response.errorCode);
+            } else if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else {
+                const uri = response.assets[0].uri;
+                setImage(uri);
+            }
+        });
     };
 
     return (
@@ -37,10 +82,10 @@ const CreateUser = () => {
                     placeholder="Rut"
                     onChangeText={(value) => handleChangeText("rut", value)}
                 />
-                <TextInput
-                    placeholder="Imagen"
-                    onChangeText={(value) => handleChangeText("image", value)}
-                />
+                {/* touchable opacity 
+                <Button title="Seleccionar Imagen" style={styles.Button} onPress={() => selectImage() } />
+                <Button title="Tomar Fotografia" style={styles.Button} onPress={() => takePicture() } />
+                */}
                 <TextInput
                     placeholder="Nombre"
                     onChangeText={(value) => handleChangeText("nombre", value)}
@@ -81,7 +126,7 @@ const CreateUser = () => {
                     placeholder="Parentesco Contacto Emergencia"
                     onChangeText={(value) => handleChangeText("parentescoContactoEmergencia", value)}
                 />
-                <Button title="Crear Usuario" onPress={() => createNewUser()} />
+                <Button title="Crear Usuario" style={styles.Button} onPress={() => createNewUser()} />
             </View>
         </ScrollView>
     );
@@ -94,10 +139,14 @@ const styles = StyleSheet.create({
     },
     inputGroup: {
         flex: 1,
-        padding: 0,
-        marginBottom: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: "#cccccc",
+        padding: 10,
+        paddingTop: 10,
+    },
+    Button: {
+        flex: 1,
+        padding: 10,
+        paddingTop: 10,
+        marginBottom: 10,
     },
 });
 

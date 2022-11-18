@@ -7,10 +7,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import CreateUser from './screens/CreateUser';
 import Scaner from './screens/Scaner';
+import Login from './screens/Login';
 
 //icons
-import { AntDesign } from '@expo/vector-icons'; //icono-home-scanner-usuario
-
+import { AntDesign } from '@expo/vector-icons'; //icono-home-scanner-usuario-login
 
 const Stack = createNativeStackNavigator();
 
@@ -34,26 +34,37 @@ function MyTabs() {
                 options={{
                     tabBarLabel:'Inicio',
                     tabBarIcon: ({color , size}) => (
-                        <AntDesign name="home" size={24} color="black" />
+                        <AntDesign name="home" size={24} color="#5b6f7f" />
                     ),
                     headerShown: false,
                 }}
             />
+            {/* <Tabs.Screen
             <Tabs.Screen
                 name="Crear Usuario"
                 component={CreateUser}
                 options={{
                     tabBarIcon: ({color , size }) => (
-                        <AntDesign name="adduser" size={24} color="black" />
+                        <AntDesign name="adduser" size={24} color="#5b6f7f" />
                     ),
                 }}
             />
+            */} 
             <Tabs.Screen
                 name="Scaner"
                 component={Scaner}
                 options={{
                     tabBarIcon: ({color , size}) => (
-                        <AntDesign name="scan1" size={24} color="black" />
+                        <AntDesign name="scan1" size={24} color="#5b6f7f" />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="Login"
+                component={Login}
+                options={{
+                    tabBarIcon: ({color , size}) => (
+                        <AntDesign name="login" size={24} color="#5b6f7f" />
                     ),
                 }}
             />

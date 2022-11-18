@@ -1,93 +1,76 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 
 
-const HomeScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>HelpEx</Text>
-      <TouchableOpacity style={styles.buttonEscanear} onPress={() => {} }>
-        <Image source={require('../assets/imgCara.jpg')} style={styles.buttonEscanerImage} />
-        <Text style={styles.buttonTextEscaner}>Escanear</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonAgregar} onPress={() => navigation.navigate() }>
-        <Image source={require('../assets/addUser.jpg')} style={styles.buttonAgregarImage} />
-        <Text style={styles.buttonTextAgregar}>Agregar</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
+
+export default function Home({navigation}) {
+    return (
+    <ScrollView style={styles.container}>
+        <View style={styles.Title}>
+            <Text style={styles.TitleText}>Bienvenido</Text>
+            <Text style={styles.TitleText}>a HelpEx</Text>
+        </View>
+        <View style={styles.textParrafo}>
+            <Text style={styles.textParrafoText}>Es una aplicacion orienta al escaneo de las personas que padecen de alguna enfermedad. En el cual, las demas personas tendra los datos disponible para contartase con la persona agregada, en el contacto de emergencia.</Text>
+        </View>
+        <View style={styles.Imagen}>
+            <Image
+                style={styles.Image}
+                source={require('../assets/help.jpg')}
+            />
+        </View>
+        <View style={styles.textParrafo}>
+            <Text style={styles.textParrafoText}>Para poder usar la aplicacion, es necesario que se registre en la opcion de "Crear Usuario". Una vez registrado, podra escanear a la persona.</Text>
+        </View>
+        <View style={styles.Imagen}>
+            <Image
+                style={styles.Image}
+                source={require('../assets/ayuda.jpg')}
+            />
+        </View>
+    </ScrollView>
+    );
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  title: {
-    fontSize: 45,
-    fontWeight: 'bold',
-    color: '#143157',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonEscanear: {
-    backgroundColor: '#white',
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonEscanerImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonTextEscaner: {
-    color: '#143157',
-    fontSize: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonAgregar: {
-    backgroundColor: 'white', 
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonTextAgregar: {
-    color: '#143157',
-    fontSize: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonAgregarImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  desarrolladoresTitle: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: 'green',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  desarrolladores: {
-    fontSize: 7,
-    color: '#143157',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    Title: {
+        flex: 1,
+        padding: 10,
+        paddingTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    TitleText: { 
+        fontSize: 50,
+        fontWeight: 'bold',
+        color: '#98d5c9', //color titulo
+    },
+    textParrafo: {
+        flex: 1,
+        padding: 10,
+        paddingTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    Imagen: {
+        flex: 1,
+        padding: 10,
+        paddingTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    Image: { 
+        width: 300,
+        height: 300,
+        resizeMode: 'contain',
+    },
+    textParrafoText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#5b6f7f', //color texto
+    },
 });
-
-export default HomeScreen;
