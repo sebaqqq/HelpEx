@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, ScrollView } from 'react-native';
-
-
+import { StatusBar } from 'expo-status-bar';
 
 export default function Home({navigation}) {
     return (
@@ -11,7 +10,7 @@ export default function Home({navigation}) {
             <Text style={styles.TitleText}>a HelpEx</Text>
         </View>
         <View style={styles.textParrafo}>
-            <Text style={styles.textParrafoText}>Es una aplicacion orienta al escaneo de las personas que padecen de alguna enfermedad. En el cual, las demas personas tendra los datos disponible para contartase con la persona agregada, en el contacto de emergencia.</Text>
+            <Text style={styles.textParrafoText}>Es una aplicacion orienta al escaneo de las personas que padecen de alguna enfermedad. En el cual, las demas personas tendra los datos disponible para contartase con la persona agregada como contacto de emergencia.</Text>
         </View>
         <View style={styles.Imagen}>
             <Image
@@ -20,7 +19,7 @@ export default function Home({navigation}) {
             />
         </View>
         <View style={styles.textParrafo}>
-            <Text style={styles.textParrafoText}>Para poder usar la aplicacion, es necesario que se registre en la opcion de "Crear Usuario". Una vez registrado, podra escanear a la persona.</Text>
+            <Text style={styles.textParrafoText}>Para poder usar la aplicacion, es necesario que se registre en la opcion de "Login", para posteriormente registrar a la persona. Una vez registrado, podra escanear a la persona.</Text>
         </View>
         <View style={styles.Imagen}>
             <Image
@@ -28,6 +27,7 @@ export default function Home({navigation}) {
                 source={require('../assets/ayuda.jpg')}
             />
         </View>
+        <StatusBar style="auto" />
     </ScrollView>
     );
 }
