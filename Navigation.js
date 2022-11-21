@@ -7,17 +7,26 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import CreateUser from './screens/CreateUser';
 import Scaner from './screens/Scaner';
-import Login from './screens/Login';
+import LoginScreen from './screens/Login';
+import HomeScreen from './screens/HomeLogin';
 
 //icons
 import { AntDesign } from '@expo/vector-icons'; //icono-home-scanner-usuario-login
+import EditUser from "./screens/EditUser";
+import ShowEdit from './screens/ShowEdit';
+import Photo from './screens/Photo';
 
 const Stack = createNativeStackNavigator();
 
 function Mystack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Cuenta" component={LoginScreen} />
+      <Stack.Screen name="CreateUser" component={CreateUser} /> 
+      <Stack.Screen name="ShowEdit" component={ShowEdit} />
+      <Stack.Screen name="EditUser" component={EditUser} /> 
+      <Stack.Screen name="Photo" component={Photo} />
+      <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
 }
@@ -30,27 +39,16 @@ function MyTabs() {
         initialRouteName="Home">
             <Tabs.Screen
                 name="HelpEx" 
-                component={Mystack}
+                component={Home}
                 options={{
                     tabBarLabel:'Inicio',
                     tabBarIcon: ({color , size}) => (
                         <AntDesign name="home" size={24} color="#5b6f7f" />
                     ),
-                    headerShown: false,
+                    
                 }}
             />
             {/* <Tabs.Screen
-            <Tabs.Screen
-                name="Crear Usuario"
-                component={CreateUser}
-                options={{
-                    tabBarIcon: ({color , size }) => (
-                        <AntDesign name="adduser" size={24} color="#5b6f7f" />
-                    ),
-                }}
-            />
-            */} 
-            <Tabs.Screen
                 name="Scaner"
                 component={Scaner}
                 options={{
@@ -58,16 +56,19 @@ function MyTabs() {
                         <AntDesign name="scan1" size={24} color="#5b6f7f" />
                     ),
                 }}
-            />
+            /> */}
             <Tabs.Screen
                 name="Login"
-                component={Login}
+                component={Mystack}
                 options={{
                     tabBarIcon: ({color , size}) => (
                         <AntDesign name="login" size={24} color="#5b6f7f" />
                     ),
+                    headerShown: false,
                 }}
+                
             />
+
         </Tabs.Navigator>
     );
 }

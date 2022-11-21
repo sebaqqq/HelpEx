@@ -1,32 +1,63 @@
 import React from "react";
-import { database } from "../dataBase/firebase";
-import { 
-    deleteDoc,
-    doc,
-    updateDoc,
-    addDoc,
-    collection,
-    query,
-} from "firebase/firestore";
-import { ListItem } from "react-native-elements";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 
-export default function User({id, rut, nombre, apellidoPaterno, apellidoMaterno, direccion, diagnostico, nombreContactoEmergencia, apellidoContactoEmergencia, rutContactoEmergencia, telefonoContactoEmergencia, parentescoContactoEmergencia}) {
+export default function User({ id, rut, nombre, apellidoPaterno, apellidoMaterno, direccion, diagnostico, nombreContactoEmergencia, apellidoContactoEmergencia, rutContactoEmergencia, telefonoContactoEmergencia, parentescoContactoEmergencia }) {
+    const navigation = useNavigation();
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <Feather
+            name="edit"
+            size={24}
+            color="#5b6f7f"
+            onPress={() => navigation.navigate("EditUser")}
+          />
+        ),
+      });
+    }, []);
     return (
-        <ListItem>
-            <ListItem.Chevron />
-            <ListItem.Content>
-                <ListItem.Title>Rut: {rut}</ListItem.Title>
-                <ListItem.Title>Nombre: {nombre}</ListItem.Title>
-                <ListItem.Title>Apellido Paterno: {apellidoPaterno}</ListItem.Title>
-                <ListItem.Title>Apellido Materno: {apellidoMaterno}</ListItem.Title>
-                <ListItem.Title>Direccion: {direccion}</ListItem.Title>
-                <ListItem.Title>Diagnostico: {diagnostico}</ListItem.Title>
-                <ListItem.Title>Nombre Contacto Emergencia: {nombreContactoEmergencia}</ListItem.Title>
-                <ListItem.Title>Apellido Contacto Emergencia: {apellidoContactoEmergencia}</ListItem.Title>
-                <ListItem.Title>Rut Contacto Emergencia: {rutContactoEmergencia}</ListItem.Title>
-                <ListItem.Title>Telefono Contacto Emergencia: {telefonoContactoEmergencia}</ListItem.Title>
-                <ListItem.Title>Parentesco Contacto Emergencia: {parentescoContactoEmergencia}</ListItem.Title>
-            </ListItem.Content>
-        </ListItem>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.titulo}>Datos Usuario</Text>
+          <Text style={styles.text}>Rut: {rut}</Text>
+          <Text style={styles.text}>Nombre: {nombre}</Text>
+          <Text style={styles.text}>Apellido Paterno: {apellidoPaterno}</Text>
+          <Text style={styles.text}>Apellido Materno: {apellidoMaterno}</Text>
+          <Text style={styles.text}>Direccion: {direccion}</Text>
+          <Text style={styles.text}>Diagnostico: {diagnostico}</Text>
+          <Text style={styles.text}>Nombre Contacto Emergencia: {nombreContactoEmergencia}</Text>
+          <Text style={styles.text}>Apellido Contacto Emergencia: {apellidoContactoEmergencia}</Text>
+          <Text style={styles.text}>Rut Contacto Emergencia: {rutContactoEmergencia}</Text>
+          <Text style={styles.text}>Telefono Contacto Emergencia: {telefonoContactoEmergencia}</Text>
+          <Text style={styles.text}>Parentesco Contacto Emergencia: {parentescoContactoEmergencia}</Text>
+        </View>
+      </ScrollView>
     );
-}
+  }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    text: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color: '#5b6f7f',
+    },
+    titulo: {
+      fontSize: 35,
+      fontWeight: 'bold',
+      color: '#98d5c9',
+  },
+  });
+

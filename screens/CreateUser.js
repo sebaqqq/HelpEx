@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { StyleSheet, ScrollView, View, TextInput, Button } from "react-native";
-import { database } from "../src/dataBase/firebase";
+import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity, Text  } from "react-native";
+import { StatusBar } from 'expo-status-bar';
+import { database } from "../src/dataBase/database-firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
+//import { Permission, ImagePicker } from "expo";
 
-
+//``
 const CreateUser = () => {
     const navigation = useNavigation();
     const [state, setState] = useState({
         rut: "",
-        userId: "",
-        imageFirebase: "",
         nombre: "",
         apellidoPaterno: "",
         apellidoMaterno: "",
@@ -32,133 +32,77 @@ const CreateUser = () => {
         navigation.goBack();
     };
 
-    uploadImage = (uri) => {
-        return new Promise((resolve, reject) => {
-            let xhr = new XMLHttpRequest();
-            xhr.onerror = reject;
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4) {
-                    resolve(xhr.response);
-                }
-            };
-
-            xhr.open("GET", uri);
-            xhr.responseType = "blob";
-            xhr.send();
-        })
-    };
-
-    openGallery = async () => {
-        const resultPermission = await Permission.askAsync(Permission.CAMERA_ROLL);
-        const { userId } = this.state;
-        if (resultPermission) {
-            const resultImagePicker = await ImagePicker.launchImageLibraryAsync({
-                allowsEditing: true,
-                aspect: [4, 3]
-            });
-        }
-
-        if (resultImagePicker.cancelled == false) {
-            const imageUri = resultImagePicker.uri;
-
-            this.uploadImage(imageUri).then(resolve => {
-                let ref = 
-                firebase.storage().ref().child("images/" + userId + ".jpg");
-                ref.put(resolve).then(resolve => {
-                    //this.setState({ imageFirebase: imageUri });
-                    console.log("Imagen Cargada");           
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }
-    };
-
-    checkImage = () => {
-        const { imageFirebase } = this.state;
-
-        if (imageFirebase) {
-            return (
-                <Image
-                    source={{ uri: imageFirebase }}
-                    style={{ width: 300, height: 300 }}
-                />
-            );
-        }
-        return null;
-    };
-
-    loadImage = async () => {
-        //const { userId } = this.state; lo llame de esa manera
-        //                               userID
-        firebase.storage().ref("images/${this.state.userId}").getDownloadURL().then(resolve => {
-            this.setState({ imageFirebase: resolve });
-        }).catch(error => {
-            console.log(error);
-        });
-    };
+    
     return (
         <ScrollView style={styles.container}>
             <View style={styles.inputGroup}>
+                <Text style={styles.titulo}>Crear Usuario</Text>
                 <TextInput
-                    placeholder="Rut"
+                    placeholder="11111111-k"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("rut", value)}
                 />
-    
-                <Button 
-                onPress={() => this.openGallery()} 
-                title="Seleccionar Imagen"
-                color="#841584"
-                />
-                
-                <Button 
-                onPress={() => this.loadImage()} 
-                title="Cargar Imagen"
-                color="#841584"
-                />
-
+                <TouchableOpacity 
+                    onPress={() => navigation.navigate("Photo")}
+                    style={styles.boton}>
+                        <Text style={styles.botonText}>Tomar Foto</Text>
+                </TouchableOpacity>
                 <TextInput
                     placeholder="Nombre"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("nombre", value)}
                 />
                 <TextInput
                     placeholder="Apellido Paterno"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("apellidoPaterno", value)}
                 />
                 <TextInput
                     placeholder="Apellido Materno"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("apellidoMaterno", value)}
                 />
                 <TextInput
                     placeholder="Direccion"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("direccion", value)}
                 />
                 <TextInput
                     placeholder="Diagnostico"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("diagnostico", value)}
                 />
                 <TextInput
+                    style={styles.correo}
                     placeholder="Nombre Contacto Emergencia"
                     onChangeText={(value) => handleChangeText("nombreContactoEmergencia", value)}
                 />
                 <TextInput
+                    style={styles.correo}
                     placeholder="Apellido Contacto Emergencia"
                     onChangeText={(value) => handleChangeText("apellidoContactoEmergencia", value)}
                 />
                 <TextInput
+                    style={styles.correo}
                     placeholder="Rut Contacto Emergencia"
                     onChangeText={(value) => handleChangeText("rutContactoEmergencia", value)}
                 />
                 <TextInput
                     placeholder="Telefono Contacto Emergencia"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("telefonoContactoEmergencia", value)}
                 />
                 <TextInput
                     placeholder="Parentesco Contacto Emergencia"
+                    style={styles.correo}
                     onChangeText={(value) => handleChangeText("parentescoContactoEmergencia", value)}
                 />
-                <Button title="Crear Usuario" style={styles.Button} onPress={() => createNewUser()} />
+                <TouchableOpacity 
+                    onPress={() => createNewUser()}
+                    style={styles.boton}>
+                        <Text style={styles.botonText}>Crear Usuario</Text>
+                </TouchableOpacity>
+                <StatusBar style="auto" />
             </View>
         </ScrollView>
     );
@@ -167,18 +111,51 @@ const CreateUser = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 35,
+        padding: 5,
     },
     inputGroup: {
         flex: 1,
         padding: 10,
         paddingTop: 10,
     },
-    Button: {
-        flex: 1,
+    boton: {
+        width: '100%',
+        height: 50,
+        borderColor: '#98d5c9',
+        borderWidth: 1,
+        marginTop: 10,
+        borderRadius: 20,
+        paddingLeft: 40,
+        paddingRight: 40,
         padding: 10,
-        paddingTop: 10,
-        marginBottom: 10,
+        marginTop: 20,
+        backgroundColor: '#98d5c9',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    botonText: {
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    correo: {
+        width: '100%',
+        height: 50,
+        borderColor: '#98d5c9',
+        borderWidth: 1,
+        marginTop: 10,
+        borderRadius: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
+        padding: 10,
+        marginTop: 20,
+    },
+    titulo: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        color: '#98d5c9',
     },
 });
 
