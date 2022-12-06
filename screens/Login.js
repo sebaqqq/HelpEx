@@ -11,16 +11,11 @@ import { StatusBar } from 'expo-status-bar';
 //Firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-//import { firebaseConfigData } from "../src/dataBase/firebase";
 import { firebaseConfig } from "../src/dataBase/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 
-
-import HomeLogin from "./HomeLogin";
-
 function LoginScreen() {
-
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   
@@ -43,34 +38,34 @@ function LoginScreen() {
     .then((userCredential) => {
       console.log(user);
       const user = userCredential.user;
-      Alert.alert("Usuario creado");
+      Alert.alert("Cuenta creada");
     })
     .catch(error => {
       console.log(error);
-      Alert.alert('Error, Se ha producido un error al crear el usuario');
+      Alert.alert('Error, Se ha producido un error al crear cuenta');
     });
   };
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      console.log(user);
+      //console.log(user);
       const user = userCredential.user;
-      Alert.alert("Usuario logeado ");
+      Alert.alert("Bienvenido");
     })
     .catch(error => {
       console.log(error);
-      Alert.alert('Uusuario o contraseña incorrectos');
+      Alert.alert('Correo o Contraseña incorrectos');
     });
   };
 
   return (  
-   
       <View style={styles.container}>
       <Text style={styles.Title}>Bienvenido</Text>
-      <Text style={styles.bajadaTitulo}>Iniciar Sesion con HelpEx</Text>
+      <Text style={styles.bajadaTitulo}>Iniciar Sesión con HelpEx</Text>
       <TextInput
         placeholder="helpex@email.com"
+        keyboardType="email-address"
         style={styles.correo}
         onChangeText={(text) => setEmail(text)}
       />
@@ -84,7 +79,7 @@ function LoginScreen() {
       <TouchableOpacity 
       onPress={handleLogin}
       style={styles.boton}>
-        <Text style={styles.botonText}>Iniciar Sesion</Text>
+        <Text style={styles.botonText}>Iniciar Sesión</Text>
       </TouchableOpacity>
       <TouchableOpacity 
       onPress={handleCreateAccount}
@@ -92,6 +87,7 @@ function LoginScreen() {
         <Text style={styles.botonText}>Crear Cuenta</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
+      <Text style={styles.Parrafo}>¡Si no tienes una cuenta solo ingresa tu correo y una contraseña, luego presiona el botón crear cuenta y automáticamente esta se creará!</Text>
     </View>
     );
 }
@@ -116,7 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   correo: {
-    width: '80%',
+    width: '90%',
     height: 50,
     borderColor: '#98d5c9',
     borderWidth: 1,
@@ -128,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   contraseña: {
-    width: '80%',
+    width: '90%',
     height: 50,
     borderColor: '#98d5c9',
     borderWidth: 1,
@@ -140,7 +136,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   boton: {
-    width: '60%',
+    width: '85%',
     height: 50,
     borderColor: '#98d5c9',
     borderWidth: 1,
@@ -171,6 +167,13 @@ const styles = StyleSheet.create({
   cuentaNo: {
     fontSize: 15,
     color: '#5b6f7f',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  Parrafo: {
+    fontSize: 14,
+    color: '#5b6f7f', //color texto
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 20,

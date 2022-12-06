@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
@@ -14,15 +14,15 @@ function HomeScreen() {
       .signOut()
       .then(() => {
         navigation.replace("Cuenta");
+        Alert.alert("Cuenta cerrada");
       })
       .catch((error) => alert(error.message));
   };
 
-
   return (
     <View style={styles.container}>
       <Text style={styles.Title}>¿Tienes tu usuario creado para Escanear?</Text>
-      <Text style={styles.textParrafo}>Si no tienes uno crea el usuario presionando el boton "Crear Usuario".</Text>
+      <Text style={styles.textParrafo}>Si no tienes uno, crea el usuario presionando el botón "Crear Usuario".</Text>
       <TouchableOpacity
         onPress={() => navigation.navigate("CreateUser")}
         style={styles.boton}
@@ -35,12 +35,12 @@ function HomeScreen() {
       >
         <Text style={styles.botonText}>Mostrar Datos</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity
-        onPress={() => navigation.navigate("EditUser")}
+      <TouchableOpacity
+        onPress={() => navigation.navigate("CodeQR")}
         style={styles.boton}
       >
-        <Text style={styles.botonText}>Editar Datos</Text>
-      </TouchableOpacity> */}
+        <Text style={styles.botonText}>Generar Código QR</Text>
+      </TouchableOpacity>
       <TouchableOpacity
         onPress={handleSignOut}
         style={styles.boton}
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   Title: {
-    fontSize: 50,
+    fontSize: 45,
     fontWeight: 'bold',
     color: '#98d5c9',
   },

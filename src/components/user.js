@@ -53,11 +53,12 @@ export default function User({ id, rut, nombre, apellidoPaterno, apellidoMaterno
       fontSize: 22,
       fontWeight: 'bold',
       color: '#5b6f7f',
+      margin: 3,
     },
     titulo: {
       fontSize: 35,
       fontWeight: 'bold',
       color: '#98d5c9',
-  },
+    },
   });
 
