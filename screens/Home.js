@@ -10,7 +10,7 @@ export default function Home({navigation}) {
             <Text style={styles.TitleText}>a HelpEx</Text>
         </View>
         <View style={styles.textParrafo}>
-            <Text style={styles.textParrafoText}>Es una aplicacion orienta al escaneo de las personas que padecen de alguna enfermedad. En el cual, las demas personas tendra los datos disponible para contartase con la persona agregada como contacto de emergencia.</Text>
+            <Text style={styles.textParrafoText}>Es una aplicación orienta al escaneo de las personas que padecen de alguna enfermedad. En el cual, las demás personas tendrá los datos disponibles para contactarse con la persona agregada como contacto de emergencia.</Text>
         </View>
         <View style={styles.Imagen}>
             <Image
@@ -19,7 +19,7 @@ export default function Home({navigation}) {
             />
         </View>
         <View style={styles.textParrafo}>
-            <Text style={styles.textParrafoText}>Para poder usar la aplicacion, es necesario que se registre en la opcion de "Login", para posteriormente registrar a la persona. Una vez registrado, podra escanear a la persona.</Text>
+            <Text style={styles.textParrafoText}>Para poder usar la aplicación, es necesario que se registre en la opción de "Login", para posteriormente registrar a la persona. Una vez registrado, podrá escanear el código QR entregado por la aplicación.</Text>
         </View>
         <View style={styles.Imagen}>
             <Image

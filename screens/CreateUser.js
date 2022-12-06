@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity, Text  } from "react-native";
+import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity, Text, Alert  } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import { database } from "../src/dataBase/database-firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
-//import { Permission, ImagePicker } from "expo";
 
 //``
 const CreateUser = () => {
@@ -29,24 +28,25 @@ const CreateUser = () => {
 
     const createNewUser = () => {
         addDoc(collection(database, "user"), state)
-        navigation.goBack();
+        .then(() => {
+            Alert.alert("Usuario creado correctamente");
+            navigation.goBack();
+        }).catch((error) => {
+            Alert.alert("Error al crear usuario");
+        });
     };
 
-    
     return (
         <ScrollView style={styles.container}>
             <View style={styles.inputGroup}>
                 <Text style={styles.titulo}>Crear Usuario</Text>
                 <TextInput
-                    placeholder="11111111-k"
+                    placeholder="RUT (11.111.111-k)"
                     style={styles.correo}
+                    keyboardType="numeric"
                     onChangeText={(value) => handleChangeText("rut", value)}
                 />
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate("Photo")}
-                    style={styles.boton}>
-                        <Text style={styles.botonText}>Tomar Foto</Text>
-                </TouchableOpacity>
+                
                 <TextInput
                     placeholder="Nombre"
                     style={styles.correo}
@@ -84,12 +84,14 @@ const CreateUser = () => {
                 />
                 <TextInput
                     style={styles.correo}
-                    placeholder="Rut Contacto Emergencia"
+                    placeholder="Rut Contacto Emergencia (11.111.111-k)"
+                    keyboardType="numeric"
                     onChangeText={(value) => handleChangeText("rutContactoEmergencia", value)}
                 />
                 <TextInput
                     placeholder="Telefono Contacto Emergencia"
                     style={styles.correo}
+                    keyboardType="numeric"
                     onChangeText={(value) => handleChangeText("telefonoContactoEmergencia", value)}
                 />
                 <TextInput
@@ -132,7 +134,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#98d5c9',
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     botonText: {
         fontSize: 20,

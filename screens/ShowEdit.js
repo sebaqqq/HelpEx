@@ -1,20 +1,20 @@
 import * as React from "react";
 import { useState } from "react";
 import {
-  Button,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  FlatList,
-  TextInput,
-  StyleSheet
+    Button,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+    FlatList,
+    TextInput,
+    StyleSheet
 } from "react-native";
 
 import { database } from "../src/dataBase/database-firebase";
 import { useNavigation } from "@react-navigation/native";
 import { collection, onSnapshot, query, addDoc, doc } from "firebase/firestore";
-
+//src -> screens -> ShowEdit.js
 import User from "../src/components/user";
 
 function ShowEdit() {
@@ -45,12 +45,12 @@ function ShowEdit() {
     }, []);
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.scroll}>
             <View style={styles.container}>
                 {!user ? (
                     <Text>No hay datos</Text>
                 ) : (
-                    <View style={{ margin: 50, }}>
+                    <View style={{ margin: 20, }}>
                         {user.map((user) => (
                             <User key={user.id} {... user} />
                         ))}
@@ -62,6 +62,10 @@ function ShowEdit() {
 }
 
 const styles = StyleSheet.create({
+    scroll: {
+        flex: 1,
+        padding: 5,
+    },
     container: {
         flex: 1,
         justifyContent: "center",

@@ -12,23 +12,25 @@ import HomeScreen from './screens/HomeLogin';
 
 //icons
 import { AntDesign } from '@expo/vector-icons'; //icono-home-scanner-usuario-login
+
+//HomeLogin 
 import EditUser from "./screens/EditUser";
 import ShowEdit from './screens/ShowEdit';
-import Photo from './screens/Photo';
+import CodeQR from './screens/CodeQR';
 
 const Stack = createNativeStackNavigator();
 
 function Mystack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Cuenta" component={LoginScreen} />
-      <Stack.Screen name="CreateUser" component={CreateUser} /> 
-      <Stack.Screen name="ShowEdit" component={ShowEdit} />
-      <Stack.Screen name="EditUser" component={EditUser} /> 
-      <Stack.Screen name="Photo" component={Photo} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+    return (
+    <Stack.Navigator style={{color: '#98d5c9'}}>
+        <Stack.Screen name="Cuenta" component={LoginScreen} />
+        <Stack.Screen name="CreateUser" component={CreateUser} /> 
+        <Stack.Screen name="ShowEdit" component={ShowEdit} />
+        <Stack.Screen name="EditUser" component={EditUser} /> 
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="CodeQR" component={CodeQR} />
     </Stack.Navigator>
-  );
+    );
 }
 
 const Tabs = createBottomTabNavigator();
@@ -48,7 +50,7 @@ function MyTabs() {
                     
                 }}
             />
-            {/* <Tabs.Screen
+            <Tabs.Screen
                 name="Scaner"
                 component={Scaner}
                 options={{
@@ -56,7 +58,7 @@ function MyTabs() {
                         <AntDesign name="scan1" size={24} color="#5b6f7f" />
                     ),
                 }}
-            /> */}
+            />
             <Tabs.Screen
                 name="Login"
                 component={Mystack}
@@ -68,7 +70,6 @@ function MyTabs() {
                 }}
                 
             />
-
         </Tabs.Navigator>
     );
 }

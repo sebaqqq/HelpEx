@@ -1,82 +1,81 @@
-// import * as React from "react";
-// import { Text, View, StyleSheet } from "react-native";
-// import { Camera } from 'expo-camera';
-// import * as FaceDetector from 'expo-face-detector';
+import React from 'react';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Linking } from 'react-native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+//import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+//import { Link } from '@react-navigation/native';
+//import { async } from '@firebase/util';
 
-// function Scaner() {
-//   const [hasPermission, setHasPermission] = React.useState();
-//   const [faceData, setFaceDate] = React.useState();
+export default function Scaner() {
+    const [hasPermission, setHasPermission] = useState([]);
+    const [scanned, setScanned] = useState([]);
 
-//   React.useEffect(() => {
-//     (async () => {
-//       const { status } = await Camera.requestPermissionsAsync();
-//       setHasPermission(status === 'granted');
-//     })();
-//   }, []);
+    useEffect(() => {
+        (async () => {
+            const { status } = await BarCodeScanner.requestPermissionsAsync([]);
+            setHasPermission(status === 'granted');
+        })();
+    }, []);
 
-//   if (hasPermission === false) {
-//     return <Text>No access to camera</Text>;
-//   }
+    const handleBarCodeScanned = ({ type, data }) => {
+        setScanned(true);
+        alert(`Código de barras con tipo ${type} y data ${Linking.openURL(`${data}`)} ha sido escaneado!`);
+    };
 
-//   function getFaceDataView() {
-//     if (faceData.lenfth === 0) {
-//       return (
-//         <View style={styles.face}>
-//           <Text style={styles.faceDataText}>No face detected</Text>
-//         </View>
-//       );
-//     } else {
-//       return faceData.map((face, index) => {
-//         const eyesShut = face.leftEyeOpenProbability < 0.4 && face.rightEyeOpenProbability < 0.4;
-//         const winking = !eyesShut && (face.leftEyeOpenProbability < 0.4 || face.rightEyeOpenProbability < 0.4);
-//         const smiling = face.smilingProbability > 0.7;
-//         return (
-//           <View style={styles.face}>
-//             <Text style={styles.faceDataText}>Eyes Shut: {eyesShut.toString()}</Text>
-//           </View>
-//         );
-//     }
-//   };
+    if (hasPermission === null) {
+        return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
 
-//   const handleFacesDested = ({ faces }) => {
-//     setFaceDate(faces);
-//     console.log(faces);
-//   };
+    return (
+        <View style={styles.container}>
+            <BarCodeScanner 
+                onBarCodeScanned={ scanned ? undefined : handleBarCodeScanned}
+                // style={StyleSheet.absoluteFillObject}
+                style={styles.escaner}
+            />
+            {/* {scanned && <Button title='Tap to Scan Again' onPress={() => setScanned(false)} />} */}
+            {scanned && <TouchableOpacity
+                onPress={() => setScanned(false)}
+                style={styles.boton}>
+                <Text style={styles.botonText}>Presione para Escanear</Text>
+            </TouchableOpacity>}
+        </View>
+    );
+}
 
-//   return (
-//     <Camera 
-//     type={Camera.Constants.Type.front}
-//     style={styles.camera}
-//     onFacesDetected={handleFacesDetected}
-//     faceDetectorSettings={{
-//       mode : FaceDetector.Constants.Mode.fast,
-//       detectLandmarks : FaceDetector.FaceDetectorLandmarks.none,
-//       runClassifications : FaceDetector.Constants.Classifications.none,
-//       minDetectionInterval : 100,
-//       tracking : true,
-//     }}>
-//       {getFaceDataView()}
-//     </Camera>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   camera: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   face: {
-//     backgroundColor: "white",
-//     alignSelf: "stretch",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     margin: 10,
-//     padding: 10,
-//   },
-//   faceDataText: {
-//     fontSize: 20,
-//   },
-// });
-
-// export default Scaner;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    escaner: {  
+        height: 500,
+        width: 450,
+        alignSelf: 'center',
+    },
+    boton: {
+        width: '100%',
+        height: 50,
+        borderColor: '#98d5c9',
+        borderWidth: 1,
+        marginTop: 10,
+        borderRadius: 20,
+        paddingLeft: 40,
+        paddingRight: 40,
+        padding: 10,
+        marginTop: 20,
+        backgroundColor: '#98d5c9',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    botonText: {
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+});
