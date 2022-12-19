@@ -6,4 +6,4 @@ Ejecutar ese comando para instalar las dependencias:
 Luego ejecutar el siguiente comando para abrir la app: 
   npm start
  
- Por ultimo abrir la aplicacion de expo y escanear el codgio qr.
+ Por ultimo abrir la aplicacion de expo y escanear el codigo qr.
